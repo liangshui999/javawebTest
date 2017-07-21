@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!--  sqlserver账户名  -->
+    <property name="connection.username">sa</property>
+
+    <!--  sqlserver密码  -->
+    <property name="connection.password">123456</property>
+
+    <!--  sqlserver驱动  -->
+    <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+
+    <!--  mysql连接URL  -->
+    <property name="connection.url">jdbc:sqlserver://localhost\MSSQLSERVER:1433;databaseName=Test;characterEncoding=UTF-8</property>
+
+    <!--  数据库方言  -->
+    <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+
+    <!--  显示sql语句  -->
+    <property name="show_sql">true</property>
+
+    <!--  格式化sql语句  -->
+    <property name="format_sql">true</property>
+
+    <!--根据需要自动生成、更新数据表-->
+    <property name="hbm2ddl.auto">update</property>
+
+
+    <!--<mapping resource="Student.hbm.xml"/>
+    <mapping resource="Classes.hbm.xml"/>-->
+
+    <mapping resource="Person2.hbm.xml"/>
+
+  </session-factory>
+</hibernate-configuration>

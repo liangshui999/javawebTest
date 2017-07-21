@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--采用subclass继承映射-->
+<hibernate-mapping>
+    <class name="com.ctco.bean.Person" table="persons" discriminator-value="普通人">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="increment"/>
+        </id>
+
+        <!--表格里面多出的一列，专门用于鉴别类型-->
+        <discriminator type="java.lang.String" column="identi"/>
+        <property name="name" column="name" type="java.lang.String"/>
+
+        <subclass name="com.ctco.bean.Customer" discriminator-value="消费者">
+            <property name="comments" column="comments" type="java.lang.String"/>
+            <many-to-one name="employee" class="com.ctco.bean.Employee" cascade="all" column="eid"/>
+        </subclass>
+
+
+        <subclass name="com.ctco.bean.Employee" discriminator-value="普通职员">
+            <property name="company" column="company" type="java.lang.String"/>
+            <set name="customers" inverse="true">
+                <key column="eid"/>
+                <one-to-many class="com.ctco.bean.Customer"/>
+            </set>
+            <many-to-one name="manager" class="com.ctco.bean.Manager" column="mid" cascade="all"/>
+
+
+            <subclass name="com.ctco.bean.Manager" discriminator-value="管理人员">
+                <set name="employees" inverse="true">
+                    <key column="mid"/>
+                    <one-to-many class="com.ctco.bean.Employee"/>
+                </set>
+            </subclass>
+        </subclass>
+    </class>
+
+</hibernate-mapping>

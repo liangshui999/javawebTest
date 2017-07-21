@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.ctco.bean.Person" table="persons_2">
+        <id name="id" column="pid" type="java.lang.Long">
+            <generator class="increment"/>
+        </id>
+        <property name="name" column="name" type="java.lang.String"/>
+
+
+        <joined-subclass name="com.ctco.bean.Customer">
+            <key column="cid"/>
+            <property name="comments" column="comments" type="java.lang.String"/>
+            <many-to-one name="employee" class="com.ctco.bean.Employee" column="eid" cascade="all"/>
+        </joined-subclass>
+
+
+        <joined-subclass name="com.ctco.bean.Employee">
+            <key column="eid"/>
+            <property name="company" column="company" type="java.lang.String"/>
+            <set name="customers" inverse="true">
+                <key column="eid"/>
+                <one-to-many class="com.ctco.bean.Customer"/>
+            </set>
+            <many-to-one name="manager" class="com.ctco.bean.Manager" cascade="all" column="mid"/>
+
+
+            <joined-subclass name="com.ctco.bean.Manager">
+                <key column="mid"/>
+                <set name="employees" inverse="true">
+                    <key column="mid"/>
+                    <one-to-many class="com.ctco.bean.Employee"/>
+                </set>
+            </joined-subclass>
+
+        </joined-subclass>
+
+    </class>
+
+
+</hibernate-mapping>
