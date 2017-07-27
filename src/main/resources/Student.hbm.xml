@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.ctco.bean.Student" table="student" schema="dbo" catalog="Test">
+        <cache usage="read-only"/>
         <id name="id" column="sid" type="java.lang.Long">
             <generator class="increment"/>
         </id>

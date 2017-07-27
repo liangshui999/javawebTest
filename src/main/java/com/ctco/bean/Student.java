@@ -53,4 +53,14 @@ public class Student implements Serializable{
     public void setClasses(Classes classes) {
         this.classes = classes;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", classes=" + classes +
+                '}';
+    }
 }
