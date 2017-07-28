@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <constant name="struts.i18n.reload" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+    <!--<include file="struts-default.xml" />-->
+
+    <!--<package name="default" namespace="/" extends="struts-default" >
+
+        <action name="login" class="com.carson.demo.action.UserAction" method="login">
+            <result name="success">index.jsp</result>
+            <result name="login">login.jsp</result>
+        </action>
+    </package>-->
+
+    <package name="hello" namespace="/hello" extends="struts-default">
+        <!--通过method属性指定到底执行哪个方法-->
+        <action name="helloAction" class="com.ctco.actions.HelloworldAction" method="execute">
+            <result>/succes.jsp</result>
+        </action>
+        <action name="helloAction1" class="com.ctco.actions.HelloworldAction" method="add">
+            <!--这儿必须设置name，也就是add（）方法的返回值,否则会报错
+            No result defined for action com.ctco.actions.HelloworldAction and result add888-->
+            <result name="add888">/succes.jsp</result>
+        </action>
+        <action name="helloAction2" class="com.ctco.actions.HelloworldAction" method="delete">
+            <result name="delete888">/succes.jsp</result>
+        </action>
+    </package>
+
+
+    <!--测试结果类型-->
+    <package name="resultType" namespace="/result" extends="struts-default">
+        <action name="resultTypeTest" class="com.ctco.actions.ResultTypeAction">
+            <!--默认就是type就是转发-->
+            <!--<result name="success" type="dispatcher">
+                <param name="location">/resultType.jsp</param>
+            </result>-->
+
+            <!--重定向-->
+            <result name="success" type="redirect">
+                <param name="location">/resultType.jsp</param>
+            </result>
+        </action>
+    </package>
+
+
+    <!--测试通配符 ,浏览器中输入的url为http://localhost/staticLoad/pattern/productAction_add
+    或者是http://localhost/staticLoad/pattern/productAction_delete
+    以此类推
+
+    There is no Action mapped for namespace [/pattern] and action name [
+    ProductAction_add] associated with context path [/staticLoad].
+    -->
+    <package name="pat" namespace="/pat" extends="struts-default">
+        <!--<global-results>
+            <result name="success">/succes.jsp</result>
+        </global-results>-->
+
+       <!-- 为什么delete有效，其他都无效-->
+        <action name="pat_*" class="com.ctco.actions.ProductAction" method="{1}">
+            <result name="success">/succes.jsp</result>
+            <!--ProductAction里面有哪些方法，就填写哪些方法名-->
+            <allowed-methods>add,delete,update,query</allowed-methods>
+        </action>
+
+
+       <!-- <action name="productAction_add" class="com.ctco.actions.ProductAction" method="add">
+            <result name="add">/succes.jsp</result>
+        </action>-->
+    </package>
+
+
+
+    <package name="user" extends="struts-default" namespace="/user">
+        <action name="user*" class="com.ctco.actions.UserAction" method="{1}">
+            <result>/succes.jsp</result>
+        </action>
+    </package>
+
+
+</struts>
