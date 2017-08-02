@@ -8,6 +8,14 @@
     <constant name="struts.i18n.reload" value="false" />
     <constant name="struts.devMode" value="false" />
 
+    <!--
+		配置所有资源文件，省略后缀名，如果配置多个资源文件时，用","隔开。不仅是国际化资源文件
+		* 类型转换器的错误提示资源文件
+	 -->
+    <constant name="struts.custom.i18n.resources"
+              value="com.ctco.actions.convert">
+    </constant>
+
     <!--<include file="struts-default.xml" />-->
 
     <!--<package name="default" namespace="/" extends="struts-default" >
@@ -82,6 +90,11 @@
             <result>/succes.jsp</result>
         </action>
     </package>
+
+
+    <include file="struts_login.xml"/>
+    <include file="com/ctco/actions/struts_ognl.xml"/>
+    <include file="com/ctco/modledriven/struts_modle.xml"/>
 
 
 </struts>

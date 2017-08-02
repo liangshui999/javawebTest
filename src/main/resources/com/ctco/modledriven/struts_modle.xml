@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <package name="modledriven" namespace="/modledriven" extends="struts-default">
+
+        <!--定义防止表单重复提交的拦截器-->
+        <interceptors>
+            <interceptor-stack name="my_token_stack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="token">
+                    <param name="includeMethods">save,update,edit</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+
+        <action name="userAction_*" class="com.ctco.modledriven.UserAction" method="{1}">
+            <!--使用防止表单重复提交的拦截器-->
+            <interceptor-ref name="my_token_stack"/>
+
+            <result name="save">/succes.jsp</result>
+            <result name="edit">/modledriven/edit.jsp</result>
+            <result name="update">/succes.jsp</result>
+
+            <!--发生重复提交之后跳转到错误页面-->
+            <result name="invalid.token">/error.jsp</result>
+            <allowed-methods>save,update,edit</allowed-methods>
+        </action>
+    </package>
+</struts>

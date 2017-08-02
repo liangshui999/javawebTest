@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <package name="login" namespace="/login" extends="struts-default">
+        <interceptors>
+            <interceptor name="myIntercept" class="com.ctco.intercept.MyIntercepter"/>
+        </interceptors>
+
+        <action name="login" class="com.ctco.actions.LoginAction">
+            <result name="success">/succes.jsp</result>
+            <result name="input">/error.jsp</result>
+            <interceptor-ref name="myIntercept"/>
+            <!--必须把默认的拦截器栈加上，否则会出问题，切记！！-->
+            <interceptor-ref name="defaultStack"/>
+        </action>
+    </package>
+
+</struts>
