@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="personDao" class="com.ctco.springEx.aop.PersonDaoIml"/>
+    <bean id="transaction" class="com.ctco.springEx.aop.Transaction"/>
+
+    <!--配置aop-->
+    <aop:config>
+        <aop:pointcut id="pc_person" expression="execution(* com.ctco.springEx.aop.PersonDaoIml.get*(..))"/>
+        <aop:aspect id="ap_person" ref="transaction">
+            <aop:before method="beginTransaction" pointcut-ref="pc_person"/>
+            <aop:after method="commit" pointcut-ref="pc_person"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

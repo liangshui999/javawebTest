@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd" >
+
+    <!--
+		1、导入命名空间
+			xmlns:context="http://www.springframework.org/schema/context"
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		2、到入依赖注入的注解解析器
+			<context:annotation-config></context:annotation-config>
+		3、把student和person导入进来
+	-->
+
+    <!--注解解析器-->
+    <context:annotation-config/>
+
+    <bean id="helloSpring" class="com.ctco.springEx.HelloSpring"/>
+
+    <bean id="dIBean" class="com.ctco.springEx.DIBean">
+        <property name="id" value="1"/>
+        <property name="name" value="张三"/>
+        <property name="dog" ref="dog"/>
+        <property name="strs">
+            <list>
+                <value>"one"</value>
+                <value>"two"</value>
+                <value>"three"</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dog" class="com.ctco.springEx.Dog">
+        <property name="name" value="大黄"/>
+    </bean>
+
+    <bean id="anotationBean" class="com.ctco.springEx.AnotationBean">
+        <!--###########如果不写没有get和set的话，下面的property是没有提示的###########-->
+        <property name="id" value="100"/>
+        <property name="name" value="李四"/>
+    </bean>
+</beans>
+
