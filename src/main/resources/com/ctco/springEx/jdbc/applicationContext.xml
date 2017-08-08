@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://localhost\MSSQLSERVER:1433;databaseName=Test;characterEncoding=UTF-8"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--这个类里面必须有datasource-->
+    <bean id="dogDao" class="com.ctco.springEx.jdbc.DogDaoIml">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <bean id="dogService" class="com.ctco.springEx.jdbc.DogServiceIml">
+        <property name="dogDao" ref="dogDao"/>
+    </bean>
+
+    <!--配置spring的事务管理器,事务管理器里面必须有datasource-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <!--配置dog事务相关的通知-->
+    <tx:advice id="tx_dog" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置dog事务相关的aop-->
+    <aop:config>
+        <aop:pointcut id="pc_dog" expression="execution(* com.ctco.springEx.jdbc.DogServiceIml.*(..))"/>
+        <aop:advisor advice-ref="tx_dog" pointcut-ref="pc_dog"/>
+    </aop:config>
+
+</beans>

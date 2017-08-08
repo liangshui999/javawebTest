@@ -5,17 +5,17 @@
 <hibernate-configuration>
   <session-factory>
     <!--  sqlserver账户名  -->
-    <property name="connection.username">sa</property>
+    <!--<property name="connection.username">sa</property>
 
-    <!--  sqlserver密码  -->
+    &lt;!&ndash;  sqlserver密码  &ndash;&gt;
     <property name="connection.password">123456</property>
 
-    <!--  sqlserver驱动  -->
+    &lt;!&ndash;  sqlserver驱动  &ndash;&gt;
     <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
 
-    <!--  mysql连接URL  -->
+    &lt;!&ndash;  mysql连接URL  &ndash;&gt;
     <property name="connection.url">jdbc:sqlserver://localhost\MSSQLSERVER:1433;databaseName=Test;characterEncoding=UTF-8</property>
-
+-->
     <!--  数据库方言  -->
     <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
 
@@ -45,6 +45,8 @@
     <!--<mapping resource="Person2.hbm.xml"/>-->
 
     <mapping resource="com.ctco.bean/Dog.hbm.xml"/>
+
+    <mapping resource="com/ctco/springEx/hibernate/Animal.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

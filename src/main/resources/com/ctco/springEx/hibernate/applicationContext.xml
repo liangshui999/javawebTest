@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <!--数据源必须在这个文件里面配置，并且不要在hibernate.cfg.xml这里面配置了-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://localhost\MSSQLSERVER:1433;databaseName=Test;characterEncoding=UTF-8"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--配置sessionFactory-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="hibernate.cfg.xml"/>
+    </bean>
+
+    <bean id="animalDao" class="com.ctco.springEx.hibernate.AnimalDaoIml">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="animalService" class="com.ctco.springEx.hibernate.AnimalServiceIml">
+        <property name="animalDao" ref="animalDao"/>
+    </bean>
+
+
+
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--配置通知-->
+    <tx:advice id="tx_animal" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="pc_animal" expression="execution(* com.ctco.springEx.hibernate.AnimalServiceIml.*(..))"/>
+        <aop:advisor advice-ref="tx_animal" pointcut-ref="pc_animal"/>
+    </aop:config>
+
+</beans>

@@ -1,6 +1,7 @@
 package com.ctco.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter;
 
 /**
  * Created by asus-cp on 2017-07-28.
@@ -11,7 +12,6 @@ public class HelloworldAction extends ActionSupport {
     public String execute() throws Exception {
 
         System.out.println("HelloworldAction的execute（）方法执行了");
-
         return super.execute();
     }
 
